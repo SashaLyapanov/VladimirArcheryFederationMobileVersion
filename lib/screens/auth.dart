@@ -11,22 +11,52 @@ class AuthorizationPage extends StatefulWidget {
 }
 
 class _AuthorizationPageState extends State<AuthorizationPage> {
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _surnameController = TextEditingController();
+  TextEditingController _patronymicController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passswordController = TextEditingController();
+  TextEditingController _birthYearController = TextEditingController();
+  TextEditingController _genderController = TextEditingController();
+  TextEditingController _titleController = TextEditingController();
+  TextEditingController _regionController = TextEditingController();
+  TextEditingController _clubController =  TextEditingController();
 
+  late String name;
+  late String surname;
+  late String patronymic;
   late String email;
   late String password;
-  late Bool showLogin;
+  late String birthYear;
+  late String gender;
+  late String title;
+  late String region;
+  late String club;
+  late bool showLogin = true;
 
   @override
   Widget build(BuildContext context) {
 
-    Widget _logo() {
+    Widget _logoForLogin() {
       return Padding(
-        padding: EdgeInsets.only(top: 200),
+        padding: EdgeInsets.only(top: 100),
         child: Container(
           child: Align(
             child: Text('Вход', style: TextStyle(fontSize: 45, fontWeight: FontWeight.bold, color: Colors.black ),
+            ),
+          ),
+        ),
+      );
+    }
+
+    Widget _logoForRegistration() {
+      return Padding(
+        padding: EdgeInsets.only(top: 30),
+        child: Container(
+          child: Align(
+            child: Center(
+              child: Text('Регистрация в системе', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black),
+            )
             ),
           ),
         ),
@@ -80,7 +110,7 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
       );
     }
 
-    Widget _form(String label, void func()) {
+    Widget _formLogin(String label, void func()) {
       return Container(
         child: Column(
           children: <Widget>[
@@ -108,6 +138,66 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
       );
     }
 
+    Widget _formRegistration(String label, void func()) {
+      return Container(
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(bottom: 10),
+              child: _input(Icon(Icons.person), "Имя", _nameController, false),
+            ),
+            Padding(
+              padding: EdgeInsets.only(bottom: 10),
+              child: _input(Icon(Icons.person), "Фамилия", _surnameController, false),
+            ),
+            Padding(
+              padding: EdgeInsets.only(bottom: 10),
+              child: _input(Icon(Icons.person), "Отчество", _patronymicController, false),
+            ),
+            Padding(
+              padding: EdgeInsets.only(bottom: 10),
+              child: _input(Icon(Icons.email), "Email", _emailController, false),
+            ),
+            Padding(
+              padding: EdgeInsets.only(bottom: 10),
+              child: _input(Icon(Icons.lock), "Password", _passswordController, true),
+            ),
+            Padding(
+              padding: EdgeInsets.only(bottom: 10),
+              child: _input(Icon(Icons.calendar_month), "Год рождения", _birthYearController, false),
+            ),
+            Padding(
+              padding: EdgeInsets.only(bottom: 10),
+              child: _input(Icon(Icons.male), "Пол", _genderController, true),
+            ),
+            Padding(
+              padding: EdgeInsets.only(bottom: 10),
+              child: _input(Icon(Icons.arrow_upward), "Разряд/звание", _titleController, false),
+            ),
+            Padding(
+              padding: EdgeInsets.only(bottom: 10),
+              child: _input(Icon(Icons.flag), "Регион", _regionController, false),
+            ),
+            Padding(
+              padding: EdgeInsets.only(bottom: 10),
+              child: _input(Icon(Icons.home), "Клуб/организация", _clubController, false),
+            ),
+            SizedBox(height: 10,),
+            Padding(
+              padding: EdgeInsets.only(left: 20, right: 20,),
+              child: Container(
+                height: 50,
+                width: MediaQuery.of(context).size.width,
+                child: Center(
+                    child: _button(label, func)
+                ),
+              ),
+            )
+          ],
+        ),
+      );
+    }
+
     void _loginUser() {
      email = _emailController.text;
      password = _passswordController.text;
@@ -116,37 +206,138 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
      _passswordController.clear();
     }
 
+    void _registerUser() {
+      name = _nameController.text;
+      surname = _surnameController.text;
+      patronymic = _patronymicController.text;
+      email = _emailController.text;
+      password = _passswordController.text;
+      birthYear = _birthYearController.text;
+      gender = _genderController.text;
+      title = _titleController.text;
+      region = _regionController.text;
+      club = _clubController.text;
 
-    return Scaffold(
+      _nameController.clear();
+      _surnameController.clear();
+      _patronymicController.clear();
+      _emailController.clear();
+      _passswordController.clear();
+      _birthYearController.clear();
+      _genderController.clear();
+      _titleController.clear();
+      _regionController.clear();
+      _clubController.clear();
+    }
+
+
+    return MaterialApp(
+      title: "Личный кабинет",
+      home: Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.home),
+          onPressed: () {
+            //Вставить действие при нажатии на кнопку
+          },
+
+        ),
+        title: Text("Личный кабинет", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
+        actions: <Widget>[
+          IconButton(
+              onPressed: () {
+                //Действие при нажатии
+              },
+              icon: Icon(Icons.menu),
+          )
+        ],
+      ),
       backgroundColor: Colors.white,
-      body: Column(
-        children: <Widget>[
-          _logo(),
-          _form('Войти', _loginUser),
-          SizedBox(height: 20,),
-          Center(
-            child: RichText(
-              text: TextSpan(
-                text: 'Ещё нет аккаунта? ',
-                style: TextStyle(color: Colors.black, fontSize: 17),
-                children: [
-                  TextSpan(
-                    text: 'Регистрация',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontSize: 17,
-                      decoration: TextDecoration.underline,
+      body: CustomScrollView(
+        slivers: [
+          SliverList(delegate: SliverChildListDelegate(
+              [
+                Column(
+                  children: <Widget>[
+                    (
+                        showLogin ?
+                        Column(
+                          children: <Widget>[
+                            _logoForLogin(),
+                            _formLogin('Войти', _loginUser),
+                            Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Center(
+                                child: RichText(
+                                  text: TextSpan(
+                                    text: 'Ещё нет аккаунта? ',
+                                    style: TextStyle(color: Colors.black, fontSize: 17),
+                                    children: [
+                                      TextSpan(
+                                        text: 'Регистрация',
+                                        style: TextStyle(
+                                          color: Colors.blue,
+                                          fontSize: 17,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                        recognizer: TapGestureRecognizer()..onTap = () {
+                                          setState(() {
+                                            showLogin = false;
+                                          });
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(30),
+                              child: Image.asset("assets/images/arch.jpg", width: 180, height: 240,),
+                            ),
+                          ],
+                        ) :
+                        Column(
+                          children: <Widget>[
+                            _logoForRegistration(),
+                            _formRegistration('Зарегистрироваться', _registerUser),
+                            Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Center(
+                                child: RichText(
+                                  text: TextSpan(
+                                    text: 'Уже есть аккаунт? ',
+                                    style: TextStyle(color: Colors.black, fontSize: 17),
+                                    children: [
+                                      TextSpan(
+                                        text: 'Войти в систему',
+                                        style: TextStyle(
+                                          color: Colors.blue,
+                                          fontSize: 17,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                        recognizer: TapGestureRecognizer()..onTap = () {
+                                          setState(() {
+                                            showLogin = true;
+                                          });
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        )
                     ),
-                    recognizer: TapGestureRecognizer()..onTap = () {
-                      // Обработчик нажатия на ссылку
-                    },
-                  ),
-                ],
-              ),
+                  ],
+                ),
+              ],
             ),
           ),
         ],
       ),
+    ),
     );
   }
 }

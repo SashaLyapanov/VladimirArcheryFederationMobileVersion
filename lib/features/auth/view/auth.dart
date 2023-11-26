@@ -1,7 +1,8 @@
-import 'dart:ffi';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+
+import '../../drawer/view/drawer.dart';
+import '../../news/view/news.dart';
 
 class AuthorizationPage extends StatefulWidget {
   const AuthorizationPage({super.key});
@@ -95,8 +96,8 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
       return ElevatedButton(
         style: (
           ElevatedButton.styleFrom(
-            primary: Colors.blue,
-            onPrimary: Colors.white,
+            backgroundColor: Colors.blue,
+            foregroundColor: Colors.white,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))
           )
         ),
@@ -234,23 +235,19 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
     return MaterialApp(
       title: "Личный кабинет",
       home: Scaffold(
+      endDrawer: MainDrawer(),
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.home),
+          icon: CircleAvatar(
+            backgroundImage: AssetImage('assets/images/logo.jpg'),
+            radius: 30,
+          ),
           onPressed: () {
-            //Вставить действие при нажатии на кнопку
+            Navigator.push(context, MaterialPageRoute(builder: (context) => NewsPage()));
           },
 
         ),
-        title: Text("Личный кабинет", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
-        actions: <Widget>[
-          IconButton(
-              onPressed: () {
-                //Действие при нажатии
-              },
-              icon: Icon(Icons.menu),
-          )
-        ],
+        title: Center(child: Text("Личный кабинет", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),),
       ),
       backgroundColor: Colors.white,
       body: CustomScrollView(

@@ -1,4 +1,4 @@
-import 'package:archery_federation/screens/auth.dart';
+import 'package:archery_federation/router/router.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.pink),
         textTheme: TextTheme(titleMedium: TextStyle(color: Colors.black))
       ),
-      home: AuthorizationPage()
+      routes: routes,
     );
   }
 }

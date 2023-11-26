@@ -1,6 +1,9 @@
 import 'package:archery_federation/features/news/view/news.dart';
+import 'package:archery_federation/services/competition_service.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
+import '../../../services/models/models.dart';
 import '../../drawer/view/drawer.dart';
 
 class CompetitionPage extends StatefulWidget {
@@ -11,6 +14,9 @@ class CompetitionPage extends StatefulWidget {
 }
 
 class _CompetitionPageState extends State<CompetitionPage> {
+
+  List<Competition>? competitionList;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -36,13 +42,26 @@ class _CompetitionPageState extends State<CompetitionPage> {
                 Column(
                     children: <Widget>[
                       (
-                          Text(
-                              'Регистрация',
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 17,
-                                decoration: TextDecoration.underline,
-                              ))
+                          Container(
+                              child: ElevatedButton(
+                                  style: (
+                                      ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.blue,
+                                          foregroundColor: Colors.white,
+                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))
+                                      )
+                                  ),
+                                  onPressed: () async {
+                                    competitionList = await CompetitionService(dio: Dio()).getCompetitionList();
+                                    setState(() {});
+                                    // CompetitionService(dio: Dio()).getCompetition("Первое");
+                                  },
+                                  child: Text(
+                                    "Вывести соревнования",
+                                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20),
+                                  )
+                              ),
+                          )
 
                       )]),
               ],

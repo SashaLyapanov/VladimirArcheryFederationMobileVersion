@@ -23,8 +23,6 @@ class _NewsPageState extends State<NewsPage> {
 
 
 
-
-
     return MaterialApp(
         home: Scaffold(
         endDrawer: MainDrawer(),
@@ -43,24 +41,14 @@ class _NewsPageState extends State<NewsPage> {
         backgroundColor: Colors.white,
         body: CustomScrollView(
           slivers: [
-            SliverList(delegate: SliverChildListDelegate(
-            [
-              Column(
-                children: <Widget>[
-                  (
-                    Container(
-                      height: 300,
-                      child: ListView.builder(
-                          itemCount: 6,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Padding(
-                              padding: EdgeInsets.only(left: 15, right: 15, bottom: 15),
-                              child: Text("Всем привет, зовусь я Саня!!!" + index.toString()),
-                            );
-                          }),
-                    )
-                  )]),
-                ],
+            SliverList(delegate: SliverChildBuilderDelegate(
+                (BuildContext context, int index) {
+                  return Padding(
+                    padding: EdgeInsets.only(left: 15, right: 15, bottom: 15),
+                    child: Text("Всем привет, зовусь я Саня!!!" + index.toString()),
+                  );
+              },
+              childCount: 50,
               ),),
             ],),),);
 

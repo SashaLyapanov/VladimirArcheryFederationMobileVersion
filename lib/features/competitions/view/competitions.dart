@@ -18,6 +18,17 @@ class _CompetitionPageState extends State<CompetitionPage> {
   List<Competition>? competitionList;
 
   @override
+  void initState() {
+    _loadCompetitionList();
+    super.initState();
+  }
+
+  Future<void> _loadCompetitionList() async {
+    competitionList = await CompetitionService(dio: Dio()).getCompetitionList();
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
@@ -36,37 +47,55 @@ class _CompetitionPageState extends State<CompetitionPage> {
         ),
         backgroundColor: Colors.white,
         body: CustomScrollView(
-          slivers: [
-            SliverList(delegate: SliverChildListDelegate(
-              [
-                Column(
-                    children: <Widget>[
-                      (
-                          Container(
-                              child: ElevatedButton(
-                                  style: (
-                                      ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.blue,
-                                          foregroundColor: Colors.white,
-                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))
-                                      )
+          slivers: <Widget>[
+            SliverList(delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                return
+                  Container(
+                    alignment: Alignment.center,
+                    height: 50000,
+                    child: RefreshIndicator(
+                      onRefresh: () async {
+                        competitionList = await CompetitionService(dio: Dio()).getCompetitionList();
+                        setState(() {});
+                      },
+                      child: ListView.builder(
+                        itemCount: competitionList?.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          Color cardColor = index % 2 == 0 ? const Color.fromARGB(100, 120, 164, 255) : Colors.white;
+                          return Padding(
+                            padding: EdgeInsets.only(left: 15, top: 10, right: 15, bottom: 10),
+                            child: InkWell(
+                              onTap: () { Navigator.push(context, MaterialPageRoute(builder: (context) => NewsPage())); },
+                              child: Card(
+                                color: cardColor,
+                                shadowColor: Colors.white70,
+                                shape: const RoundedRectangleBorder(
+                                  side: BorderSide(
+                                    color: Color.fromARGB(100, 120, 164, 255),
+                                    width: 3
                                   ),
-                                  onPressed: () async {
-                                    competitionList = await CompetitionService(dio: Dio()).getCompetitionList();
-                                    setState(() {});
-                                    // CompetitionService(dio: Dio()).getCompetition("Первое");
-                                  },
-                                  child: Text(
-                                    "Вывести соревнования",
-                                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20),
-                                  )
+                                  borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                ),
+                                child: ListTile(
+                                  title: Text("Название: ${competitionList?[index].name}"),
+                                  subtitle: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text("Место проведения: ${competitionList?[index].place}"),
+                                      Text("Дата проведения: ${competitionList?[index].date}"),
+                                    ],
+                                  ),
+                                ),
                               ),
-                          )
-
-                      )]),
-              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  );
+              }
             ),),
           ],),),);
-
   }
 }

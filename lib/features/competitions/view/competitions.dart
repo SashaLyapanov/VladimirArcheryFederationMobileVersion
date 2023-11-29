@@ -46,14 +46,16 @@ class _CompetitionPageState extends State<CompetitionPage> {
           title: Center(child: Text("Соревнования", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),),
         ),
         backgroundColor: Colors.white,
-        body: CustomScrollView(
+        body: (competitionList == null)
+          ? const Center(child: CircularProgressIndicator())
+          : CustomScrollView(
           slivers: <Widget>[
             SliverList(delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
                 return
                   Container(
                     alignment: Alignment.center,
-                    height: 50000,
+                    height: MediaQuery.of(context).size.height,
                     child: RefreshIndicator(
                       onRefresh: () async {
                         competitionList = await CompetitionService(dio: Dio()).getCompetitionList();

@@ -3,7 +3,7 @@ import '../features/aboutUs/aboutUs.dart';
 import '../features/auth/view/auth.dart';
 
 final routes = {
-  '/': (context) => AuthorizationPage(),
-  '/news': (context) => NewsPage(),
+  '/': (context) => NewsPage(),
+  '/auth': (context) => AuthorizationPage(),
   '/aboutUs': (context) => AboutUsPage(),
 };

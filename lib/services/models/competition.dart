@@ -6,9 +6,11 @@ part 'competition.g.dart';
 @JsonSerializable()
 class Competition {
   const Competition({
+    required this.id,
     required this.name,
     required this.place,
     required this.type,
+    required this.price,
     required this.categories,
     required this.date,
     required this.status,
@@ -19,12 +21,16 @@ class Competition {
     required this.judges,
   });
 
+  @JsonKey(name: 'id')
+  final String id;
   @JsonKey(name: 'name')
   final String name;
   @JsonKey(name: 'place')
   final String place;
   @JsonKey(name: 'type')
   final CompetitionType type;
+  @JsonKey(name: 'price')
+  final int price;
   @JsonKey(name: 'categories')
   final List<Category> categories;
   @JsonKey(name: 'date')
@@ -49,9 +55,11 @@ class Competition {
 
   @override
   List<Object> get props => [
+    id,
     name,
     place,
     type,
+    price,
     categories,
     date,
     status,

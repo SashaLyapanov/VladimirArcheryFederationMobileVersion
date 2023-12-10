@@ -7,9 +7,11 @@ part of 'competition.dart';
 // **************************************************************************
 
 Competition _$CompetitionFromJson(Map<String, dynamic> json) => Competition(
+      id: json['id'] as String,
       name: json['name'] as String,
       place: json['place'] as String,
       type: CompetitionType.fromJson(json['type'] as Map<String, dynamic>),
+      price: json['price'] as int,
       categories: (json['categories'] as List<dynamic>)
           .map((e) => Category.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -26,9 +28,11 @@ Competition _$CompetitionFromJson(Map<String, dynamic> json) => Competition(
 
 Map<String, dynamic> _$CompetitionToJson(Competition instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
       'place': instance.place,
       'type': instance.type,
+      'price': instance.price,
       'categories': instance.categories,
       'date': instance.date.toIso8601String(),
       'status': _$StatusOfCompetitionEnumMap[instance.status]!,

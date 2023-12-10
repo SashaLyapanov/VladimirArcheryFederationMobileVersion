@@ -14,6 +14,8 @@ class _NewsPageState extends State<NewsPage> {
   @override
   Widget build(BuildContext context) {
 
+
+
     Widget _new() {
       return Container(
           padding: EdgeInsets.only(left: 15, top: 0, right: 15, bottom: 10),

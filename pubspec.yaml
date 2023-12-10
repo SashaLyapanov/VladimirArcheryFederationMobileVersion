@@ -33,6 +33,12 @@ dependencies:
   url_launcher: ^6.0.3
   json_annotation: ^4.8.1
   dio: ^5.3.4
+  provider: ^6.1.1
+  fluttertoast: ^8.2.4
+  flutter_secure_storage: ^9.0.0
+  calendar_date_picker2: ^0.5.3
+  intl: ^0.19.0
+
 
 
   # The following adds the Cupertino Icons font to your application.

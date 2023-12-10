@@ -1,3 +1,4 @@
+import 'package:archery_federation/features/competition/competition.dart';
 import 'package:archery_federation/features/news/view/news.dart';
 import 'package:archery_federation/services/competition_service.dart';
 import 'package:dio/dio.dart';
@@ -68,7 +69,7 @@ class _CompetitionPageState extends State<CompetitionPage> {
                           return Padding(
                             padding: EdgeInsets.only(left: 15, top: 10, right: 15, bottom: 10),
                             child: InkWell(
-                              onTap: () { Navigator.push(context, MaterialPageRoute(builder: (context) => NewsPage())); },
+                              onTap: () { Navigator.push(context, MaterialPageRoute(builder: (context) => CompetitionInfoPage(competitionId: '${competitionList?[index].id}', competition: competitionList![index]))); },
                               child: Card(
                                 color: cardColor,
                                 shadowColor: Colors.white70,
@@ -85,7 +86,7 @@ class _CompetitionPageState extends State<CompetitionPage> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Text("Место проведения: ${competitionList?[index].place}"),
-                                      Text("Дата проведения: ${competitionList?[index].date}"),
+                                      Text("Дата проведения: ${competitionList?[index].date.toLocal().toString().split(' ')[0]}"),
                                     ],
                                   ),
                                 ),

@@ -22,6 +22,8 @@ class MainDrawer extends StatefulWidget {
 class _MainDrawerState extends State<MainDrawer> {
   final storage = FlutterSecureStorage();
   String? role;
+  String? userName;
+  String? userEmail;
 
   @override
   void initState() {
@@ -31,10 +33,10 @@ class _MainDrawerState extends State<MainDrawer> {
 
   Future<void> _loadStorageData() async {
     role = await storage.read(key: 'userRole');
+    userName = await storage.read(key: "userName");
+    userEmail = await storage.read(key: "userEmail");
     setState(() {});
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +44,9 @@ class _MainDrawerState extends State<MainDrawer> {
       child: ListView(
         children: <Widget>[
           UserAccountsDrawerHeader(
-            accountName: Text('Sasha Ly'),
-            accountEmail: Text('lyapanov_s@mail.ru'),
-            currentAccountPicture: CircleAvatar(
+            accountName: (userName != null) ? Text(userName!) : const Text("Неавторизованный пользователь"),
+            accountEmail: (userEmail != null) ? Text(userEmail!) : null,
+            currentAccountPicture: const CircleAvatar(
               backgroundImage: AssetImage('assets/images/logo.jpg'),
             ),
           ),

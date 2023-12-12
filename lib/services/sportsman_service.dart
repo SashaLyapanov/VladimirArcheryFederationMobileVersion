@@ -17,4 +17,16 @@ class SportsmanService implements AbstractSportsmanService{
     List<Sportsman> sportsmen = (response.data as List).map((e) => Sportsman.fromJson(e)).toList();
     return sportsmen;
   }
+  
+  
+  Future<String> registrateInCompetition(String sportsmanId, String competitionId, String bowTypeId) async {
+    final response = await dio.post('http://$ip:8080/api/v1/sportsman/regInCompetition?sportsmanId=' + sportsmanId + '&competitionId=' + competitionId, data: {
+      "payment": false,
+      "bowType": {
+        "id": bowTypeId
+      }
+    });
+
+    return response.data;
+  }
 }

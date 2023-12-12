@@ -2,6 +2,7 @@ import 'package:archery_federation/services/models/models.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import '../../../services/sportsman_service.dart';
+import '../../competitionRegistration/view/competitionRegistration.dart';
 import '../../drawer/view/drawer.dart';
 import '../../news/view/view.dart';
 import '../widgets/widgets.dart';
@@ -101,17 +102,9 @@ class _CompetitionInfoPageState extends State<CompetitionInfoPage> {
                                     icon: const Icon(Icons.arrow_drop_down_sharp),
                                     style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16,),
                                     isExpanded: true,
-                                    // selectedItemBuilder: (BuildContext context) {
-                                    //   return competition.bowTypeList.map((element) => Align(
-                                    //     alignment: Alignment.center,
-                                    //     child: Text(element.bowTypeName, style: TextStyle(color: Colors.white), softWrap: true, textAlign: TextAlign.center,),
-                                    //   )).toList();
-                                    // },
-                                    // underline: Container(
-                                    //   height: 2,
-                                    //   color: Colors.white,
-                                    // ),
-                                    onChanged: (String? newValue) {
+                                    dropdownColor: Colors.blue,
+                                    // dropdownColor: Color.fromARGB(100, 100, 0, 0),
+                                    onChanged: (String? newValue) async {
                                       setState(() {
                                         dropDownValue = newValue!;
                                       });
@@ -121,14 +114,14 @@ class _CompetitionInfoPageState extends State<CompetitionInfoPage> {
                                           value: "all",
                                           child: Align(
                                             alignment: Alignment.center,
-                                            child: Text("Все", style: TextStyle(color: Colors.black), softWrap: true, textAlign: TextAlign.center,),)
+                                            child: Text("Все", style: TextStyle(color: Colors.white), softWrap: true, textAlign: TextAlign.center,),)
                                       ),
                                       ...List.generate(competition.bowTypeList.length, (index) => index)
                                         .map((element) => DropdownMenuItem(
                                           value: competition.bowTypeList[element].bowTypeName,
                                           child: Align(
                                             alignment: Alignment.center,
-                                            child: Text(competition.bowTypeList[element].bowTypeName, style: const TextStyle(color: Colors.black), softWrap: true, textAlign: TextAlign.center,),
+                                            child: Text(competition.bowTypeList[element].bowTypeName, style: const TextStyle(color: Colors.white), softWrap: true, textAlign: TextAlign.center,),
                                           )
                                       ),).toList()
                                     ],
@@ -140,8 +133,7 @@ class _CompetitionInfoPageState extends State<CompetitionInfoPage> {
                                     Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                    builder: (context) =>
-                                    NewsPage()))
+                                    builder: (context) => CompetitionRegistrationForm()))
                                     }
                                   }
                                 ),

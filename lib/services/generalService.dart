@@ -35,6 +35,14 @@ class GeneralService implements AbstractGeneralService{
     return sportsTitleList;
   }
 
+  @override
+  Future<List<BowType>> getAllBowTypeByCompetition(String competitionId) async {
+    final response = await dio.get('http://$ip:8080/api/v1/general/allBowTypesByCompetition?competitionId=' + competitionId);
+
+    List<BowType> bowTypeList = (response.data as List).map((e) => BowType.fromJson(e)).toList();
+    return bowTypeList;
+  }
+
   // @override
   // Future<List<Sportsman>> getSportsmanListByCompetitionAndBowType(String competitionId, String bowTypeName) async {
   //   final response = await dio.get('http://$ip:8080/api/v1/sportsman/sportsmenByCompetitionAndBowType?id=' + competitionId + '&bowTypeName='+bowTypeName);

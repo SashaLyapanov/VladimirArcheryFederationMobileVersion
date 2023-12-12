@@ -5,8 +5,12 @@ part 'bowType.g.dart';
 @JsonSerializable()
 class BowType {
   const BowType({
+    required this.id,
     required this.bowTypeName,
   });
+
+  @JsonKey(name: 'id')
+  final String id;
 
   @JsonKey(name: 'bowTypeName')
   final String bowTypeName;
@@ -17,6 +21,7 @@ class BowType {
 
   @override
   List<String> get props => [
+    id,
     bowTypeName,
   ];
 }

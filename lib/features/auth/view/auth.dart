@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
 import '../../../services/generalService.dart';
+import '../../admin/news/view/view.dart';
 import '../../drawer/view/drawer.dart';
 import '../../news/view/news.dart';
 import '../../aboutUs/view/view.dart';
@@ -431,7 +432,7 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
       if (role == "SPORTSMAN") {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AboutUsPage()));
       } else if (role == "ADMIN") {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NewsPage()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NewsAdminPage()));
       }
     }
 

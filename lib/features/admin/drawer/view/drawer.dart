@@ -1,25 +1,23 @@
 import 'package:archery_federation/features/aboutUs/aboutUs.dart';
-import 'package:archery_federation/features/account/account.dart';
-import 'package:archery_federation/features/auth/auth.dart';
 import 'package:archery_federation/features/competitions/competitions.dart';
 import 'package:archery_federation/features/drawer/drawer.dart';
 import 'package:archery_federation/features/link/link.dart';
 import 'package:archery_federation/features/news/news.dart';
-import 'package:archery_federation/features/session/session.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import '../../../services/auth.dart';
 
-class MainDrawer extends StatefulWidget {
-  const MainDrawer({super.key});
+import '../../../../services/auth.dart';
+
+class AdminDrawer extends StatefulWidget {
+  const AdminDrawer({super.key});
 
   @override
-  State<MainDrawer> createState() => _MainDrawerState();
+  State<AdminDrawer> createState() => _AdminDrawerState();
 }
 
-class _MainDrawerState extends State<MainDrawer> {
+class _AdminDrawerState extends State<AdminDrawer> {
   final storage = FlutterSecureStorage();
   String? role;
   String? userName;
@@ -44,7 +42,10 @@ class _MainDrawerState extends State<MainDrawer> {
       child: ListView(
         children: <Widget>[
           UserAccountsDrawerHeader(
-            accountName: (userName != null) ? Text(userName!) : const Text("Неавторизованный пользователь"),
+            decoration: const BoxDecoration(
+              color: Colors.red,
+            ),
+            accountName: const Text("Вы здесь Босс"),
             accountEmail: (userEmail != null) ? Text(userEmail!) : null,
             currentAccountPicture: const CircleAvatar(
               backgroundImage: AssetImage('assets/images/logo.jpg'),
@@ -88,35 +89,7 @@ class _MainDrawerState extends State<MainDrawer> {
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => CompetitionPage()));
               },
-              child: Text('Найти соревнование', style: TextStyle(fontSize: 20)),
-            ),
-          ),
-          Divider(),
-          ListTile(
-            contentPadding: EdgeInsets.zero,
-            leading: TextButton(
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all(Colors.black), // Цвет текста кнопки
-                overlayColor: MaterialStateProperty.all(Colors.transparent), // Цвет при наведении
-              ),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => SessionPage()));
-              },
-              child: Text('Тренировка 3D', style: TextStyle(fontSize: 20)),
-            ),
-          ),
-          Divider(),
-          ListTile(
-            contentPadding: EdgeInsets.zero,
-            leading: TextButton(
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all(Colors.black), // Цвет текста кнопки
-                overlayColor: MaterialStateProperty.all(Colors.transparent), // Цвет при наведении
-              ),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => SessionPage()));
-              },
-              child: Text('Тренировка Target', style: TextStyle(fontSize: 20)),
+              child: Text('Соревнования', style: TextStyle(fontSize: 20)),
             ),
           ),
           Divider(),
@@ -131,22 +104,7 @@ class _MainDrawerState extends State<MainDrawer> {
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => LinksPage()));
               },
-              child: Text('Информационные ресурсы', style: TextStyle(fontSize: 20)),
-            ),
-          ),
-          Divider(),
-          // ListTile(title: Text('Личный кабинет', style: TextStyle(fontSize: 20))),
-          ListTile(
-            contentPadding: EdgeInsets.zero,
-            leading: TextButton(
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all(Colors.black), // Цвет текста кнопки
-                overlayColor: MaterialStateProperty.all(Colors.transparent), // Цвет при наведении
-              ),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => AccountPage()));
-              },
-              child: Text('Личный кабинет', style: TextStyle(fontSize: 20)),
+              child: const Text('Информационные ресурсы', style: TextStyle(fontSize: 20)),
             ),
           ),
           // Divider(),
@@ -169,10 +127,9 @@ class _MainDrawerState extends State<MainDrawer> {
                ),
           Align(
                 alignment: Alignment.center,
-                child: (_checkAuth()) ?
+                child: (
                 authButton("Выйти", () => signOut())
-                    : authButton("Вход", () => signIn()),
-               )
+                ))
               // ),
             // ],
           // )
@@ -184,17 +141,5 @@ class _MainDrawerState extends State<MainDrawer> {
   signOut() async {
     await AuthService(dio: Dio()).signOut();
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NewsPage()));
-  }
-
-  signIn() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => AuthorizationPage()));
-  }
-
-  _checkAuth() {
-    if (role == 'SPORTSMAN' || role == 'ADMIN') {
-      return true;
-    } else {
-      return false;
-    }
   }
 }

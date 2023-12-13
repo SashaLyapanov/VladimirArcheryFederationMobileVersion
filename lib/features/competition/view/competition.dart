@@ -133,7 +133,7 @@ class _CompetitionInfoPageState extends State<CompetitionInfoPage> {
                                     Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                    builder: (context) => CompetitionRegistrationForm()))
+                                    builder: (context) => CompetitionRegistrationForm(competitionId: competitionId,)))
                                     }
                                   }
                                 ),

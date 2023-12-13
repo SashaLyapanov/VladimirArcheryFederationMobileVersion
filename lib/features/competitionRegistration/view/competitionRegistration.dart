@@ -11,10 +11,11 @@ import '../../news/view/news.dart';
 import '../widgets/widgets.dart';
 
 class CompetitionRegistrationForm extends StatefulWidget {
-  const CompetitionRegistrationForm({super.key});
+  final String competitionId;
+  const CompetitionRegistrationForm({super.key, required this.competitionId});
 
   @override
-  State<CompetitionRegistrationForm> createState() => _CompetitionRegistrationFormState();
+  State<CompetitionRegistrationForm> createState() => _CompetitionRegistrationFormState(competitionId);
 }
 
 class _CompetitionRegistrationFormState extends State<CompetitionRegistrationForm> {
@@ -24,7 +25,7 @@ class _CompetitionRegistrationFormState extends State<CompetitionRegistrationFor
   List<BowType>? bowTypeList;
   var _dropdownValueForBowType;
   String? sportsmanId;
-  String? competitionId = "fd4ccbdf-70br-5f58-br12-c01884f5d19c";
+  late String competitionId;
 
   @override
   void initState() {
@@ -61,6 +62,8 @@ class _CompetitionRegistrationFormState extends State<CompetitionRegistrationFor
   late String region;
   late String club;
   late bool showLogin = true;
+
+  _CompetitionRegistrationFormState(this.competitionId);
 
   @override
   Widget build(BuildContext context) {

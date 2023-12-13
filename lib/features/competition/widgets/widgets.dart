@@ -104,6 +104,7 @@ Widget infoAboutPage(Competition competition) {
 
 Widget participantList(Competition competition, List<Sportsman> sportsmen) {
   const Color subtitleColor = Color.fromARGB(255, 52, 49, 49);
+  int count = 0;
   return Card(
     color: Colors.white,
     shadowColor: Colors.white70,
@@ -127,9 +128,12 @@ Widget participantList(Competition competition, List<Sportsman> sportsmen) {
                 Column(
                   children: <Widget>[
                             for(Sportsman sportsman in sportsmen)
-                              Padding(
-                                padding: EdgeInsets.all(10),
-                                child: Text("${sportsman.surname} ${sportsman.surname} ${sportsman.birthDate.toLocal().toString().split(' ')[0]}", style: const TextStyle(color: subtitleColor, fontSize: 18,), softWrap: true, textAlign: TextAlign.center,),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: Text("${++count} ${sportsman.firstName} ${sportsman.surname} ${sportsman.birthDate.toLocal().toString().split(' ')[0]} ${sportsman.region.name}", style: const TextStyle(color: subtitleColor, fontSize: 18,), softWrap: true, textAlign: TextAlign.left,),
+                                ),
                               ),
                           ]
                         )

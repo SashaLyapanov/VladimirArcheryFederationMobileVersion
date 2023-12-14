@@ -28,7 +28,7 @@ class CompetitionService implements AbstractCompetitionService{
   }
   
   @override
-  Future<Competition> createCompetition(String name, String place, String date, String typeId, List<Category> categoriesId, List<BowType> bowTypeListId, String mainJudge, String secretary, String zamJudge, String judges) async {
+  Future<int> createCompetition(String name, String place, String date, String typeId, String price, List<Category> categoriesId, List<BowType> bowTypeListId, String mainJudge, String secretary, String zamJudge, String judges) async {
     List<Map<String, String>> categoriesData = [];
     List<Map<String, String>> bowTypesData = [];
 
@@ -50,6 +50,7 @@ class CompetitionService implements AbstractCompetitionService{
       "type": {
         "id": typeId
       },
+      "price": price,
       "categories": categoriesData,
       "bowTypeList": bowTypesData,
       "mainJudge": mainJudge,
@@ -59,8 +60,9 @@ class CompetitionService implements AbstractCompetitionService{
       "date": date
     });
 
-    Competition competition = Competition.fromJson(response.data);
-    return competition;
+    // Competition competition = Competition.fromJson(response.data);
+    int statusCode = response.statusCode!;
+    return statusCode;
   }
 
 

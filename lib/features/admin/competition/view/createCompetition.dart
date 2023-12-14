@@ -1,3 +1,4 @@
+import 'package:archery_federation/features/admin/competitions/competitions.dart';
 import 'package:archery_federation/services/competition_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,6 @@ import '../../../../services/generalService.dart';
 import '../../../../services/models/models.dart';
 import '../../../news/view/news.dart';
 import '../../drawer/view/drawer.dart';
-import '../../news/view/news.dart';
 import '../widgets/widgetsForCreate.dart';
 
 class AdminCompetitionCreate extends StatefulWidget {
@@ -22,12 +22,11 @@ class AdminCompetitionCreate extends StatefulWidget {
 
 class _AdminCompetitionCreateState extends State<AdminCompetitionCreate> {
   final storage = FlutterSecureStorage();
-  Competition? response;
+  int? response;
   List<Category>? categories;
   List<BowType>? bowTypeList;
   List<CompetitionType>? competitionTypeList;
   var _dropdownValueForBowType;
-  var _dropdownValueForCategory;
   var _dropdownValueForCompetitionType;
   String? sportsmanId;
   List<MultiSelectItem<Category>>? _itemsCategory;
@@ -54,7 +53,6 @@ class _AdminCompetitionCreateState extends State<AdminCompetitionCreate> {
     setState(() {});
   }
 
-
   Future<void> _loadDataLists() async {
     categories = await GeneralService(dio: Dio()).getAllCategories();
     bowTypeList = await GeneralService(dio: Dio()).getAllBowTypes();
@@ -67,8 +65,6 @@ class _AdminCompetitionCreateState extends State<AdminCompetitionCreate> {
   TextEditingController _placeController = TextEditingController();
   TextEditingController _priceController = TextEditingController();
 
-  TextEditingController _bowTypeController = TextEditingController();
-  TextEditingController _categoryController = TextEditingController();
   TextEditingController _typeController = TextEditingController();
   TextEditingController _dateController = TextEditingController();
   TextEditingController _mainJudgeController = TextEditingController();
@@ -76,11 +72,11 @@ class _AdminCompetitionCreateState extends State<AdminCompetitionCreate> {
   TextEditingController _zamJudgeController = TextEditingController();
   TextEditingController _judgesController = TextEditingController();
 
-//String name, String place, DateTime date, String typeId, List<String> categoriesId, List<String> bowTypeListId, String mainJudge, String secretary, String zamJudge, String judges
   late String name;
   late String place;
   late String date;
   late String typeId;
+  late String price;
   late String mainJudge;
   late String secretary;
   late String zamJudge;
@@ -90,57 +86,6 @@ class _AdminCompetitionCreateState extends State<AdminCompetitionCreate> {
 
   @override
   Widget build(BuildContext context) {
-
-    Widget _selectBowType(Icon icon, String hint, TextEditingController controller, List<BowType> list) {
-      return Container(
-        padding: EdgeInsets.only(left: 20, right: 20),
-        child: Card(
-          shadowColor: Colors.white70,
-          shape: const RoundedRectangleBorder(
-            side: BorderSide(
-                color: Colors.blue,
-                width: 1
-            ),
-            borderRadius: BorderRadius.all(Radius.circular(4)),
-          ),
-          child: Padding(
-              padding: EdgeInsets.only(left: 10, top: 5, right: 20, bottom: 5),
-              child: Row (
-                children: [
-                  IconTheme(
-                      data: IconThemeData(color: Colors.blue),
-                      child: Padding(padding: EdgeInsets.only(right: 10), child: icon,)),
-                  DropdownButton(
-                    value: _dropdownValueForBowType,
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
-                    hint: Text(hint, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black), softWrap: true, textAlign: TextAlign.left,),
-                    items: [
-                      ...List.generate(list.length, (index) => index)
-                          .map((element) => DropdownMenuItem(
-                        value: list[element].id,
-                        child: SizedBox(
-                          width: 250,
-                          height: 50,
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(list[element].bowTypeName, style: const TextStyle(color: Colors.black), softWrap: true, textAlign: TextAlign.left,),
-                          ),
-                        ),
-                      ),).toList()
-                    ],
-                    onChanged: (newValue) {
-                      setState(() {
-                        _dropdownValueForBowType = newValue;
-                        controller.text = newValue.toString();
-                      });
-                    },
-                  ),
-                ],
-              )
-          ) ,
-        ),
-      );
-    }
 
     Widget _selectCompetitionType(Icon icon, String hint, TextEditingController controller, List<CompetitionType> list) {
       return Container(
@@ -192,7 +137,6 @@ class _AdminCompetitionCreateState extends State<AdminCompetitionCreate> {
         ),
       );
     }
-
 
     Widget _calendar(TextEditingController controller) {
       return Container(
@@ -340,7 +284,6 @@ class _AdminCompetitionCreateState extends State<AdminCompetitionCreate> {
             padding: const EdgeInsets.only(bottom: 10),
             child: input(const Icon(Icons.person), "Судьи (через запятую)", _judgesController, false),
           ),
-
           const SizedBox(height: 10,),
           Padding(
             padding: const EdgeInsets.only(left: 20, right: 20,),
@@ -361,21 +304,22 @@ class _AdminCompetitionCreateState extends State<AdminCompetitionCreate> {
       place = _placeController.text;
       date = _dateController.text;
       typeId = _typeController.text;
+      price = _priceController.text;
       mainJudge = _mainJudgeController.text;
       secretary = _secretaryController.text;
       zamJudge = _zamJudgeController.text;
       judges = _judgesController.text;
 
-      response = await CompetitionService(dio: Dio()).createCompetition(name, place, date, typeId, selectedCategory!, selectedBowType!, mainJudge, secretary, zamJudge, judges);
+      response = await CompetitionService(dio: Dio()).createCompetition(name, place, date, typeId, price, selectedCategory!, selectedBowType!, mainJudge, secretary, zamJudge, judges);
       setState(() {});
-      if (response?.status == 200) {
+      if (response == 200) {
         setState(() {});
-        Navigator.pop(context);
+        Navigator.push(context, MaterialPageRoute(builder: (context) => AdminCompetitionPage()));
       } else {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => NewsAdminPage()));
+        //Добавить обработчик события в результате получения statusCode != 200
+        //можно просто выводить диалоговое окно с предупреждением о том, что пришло в response.message
       }
     }
-
 
     return MaterialApp(
       title: "Соревнования",
@@ -391,7 +335,6 @@ class _AdminCompetitionCreateState extends State<AdminCompetitionCreate> {
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => NewsPage()));
             },
-
           ),
           title: const Center(child: Text("Новое соревнование", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),),
         ),

@@ -26,5 +26,43 @@ class CompetitionService implements AbstractCompetitionService{
     // Competition competition = response.data.map((e) => Competition.fromJson(e));
     return competition;
   }
+  
+  @override
+  Future<Competition> createCompetition(String name, String place, String date, String typeId, List<Category> categoriesId, List<BowType> bowTypeListId, String mainJudge, String secretary, String zamJudge, String judges) async {
+    List<Map<String, String>> categoriesData = [];
+    List<Map<String, String>> bowTypesData = [];
+
+    for (Category category in categoriesId) {
+      categoriesData.add({
+        "id": category.id
+      });
+    }
+
+    for (BowType bowType in bowTypeListId) {
+      bowTypesData.add({
+        "id": bowType.id
+      });
+    }
+
+    final response = await dio.post('http://$ip:8080/api/v1/admin/createCompetition', data: {
+      "name": name,
+      "place": place,
+      "type": {
+        "id": typeId
+      },
+      "categories": categoriesData,
+      "bowTypeList": bowTypesData,
+      "mainJudge": mainJudge,
+      "secretary": secretary,
+      "zamJudge": zamJudge,
+      "judges": judges,
+      "date": date
+    });
+
+    Competition competition = Competition.fromJson(response.data);
+    return competition;
+  }
+
+
 
 }

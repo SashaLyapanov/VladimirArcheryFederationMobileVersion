@@ -20,6 +20,14 @@ class GeneralService implements AbstractGeneralService{
   }
 
   @override
+  Future<List<Category>> getAllCategories() async {
+    final response  = await dio.get('http://$ip:8080/api/v1/general/allCategories');
+
+    List<Category> categories = (response.data as List).map((e) => Category.fromJson(e)).toList();
+    return categories;
+  }
+
+  @override
   Future<List<Sex>> getSexList() async {
     final response = await dio.get('http://$ip:8080/api/v1/general/allSex');
 
@@ -41,6 +49,22 @@ class GeneralService implements AbstractGeneralService{
 
     List<BowType> bowTypeList = (response.data as List).map((e) => BowType.fromJson(e)).toList();
     return bowTypeList;
+  }
+
+  @override
+  Future<List<BowType>> getAllBowTypes() async {
+    final response = await dio.get('http://$ip:8080/api/v1/general/allBowTypes');
+
+    List<BowType> bowTypeList = (response.data as List).map((e) => BowType.fromJson(e)).toList();
+    return bowTypeList;
+  }
+
+  @override
+  Future<List<CompetitionType>> getAllCompetitionTypes() async {
+    final response = await dio.get('http://$ip:8080/api/v1/general/allCompetitionTypes');
+
+    List<CompetitionType> competitionTypes = (response.data as List).map((e) => CompetitionType.fromJson(e)).toList();
+    return competitionTypes;
   }
 
   // @override

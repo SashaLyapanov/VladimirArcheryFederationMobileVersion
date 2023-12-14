@@ -1,5 +1,4 @@
 import 'package:archery_federation/features/aboutUs/aboutUs.dart';
-import 'package:archery_federation/features/competitions/competitions.dart';
 import 'package:archery_federation/features/drawer/drawer.dart';
 import 'package:archery_federation/features/link/link.dart';
 import 'package:archery_federation/features/news/news.dart';
@@ -9,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../../../services/auth.dart';
+import '../../competitions/view/competitions.dart';
 
 class AdminDrawer extends StatefulWidget {
   const AdminDrawer({super.key});
@@ -87,7 +87,7 @@ class _AdminDrawerState extends State<AdminDrawer> {
                 overlayColor: MaterialStateProperty.all(Colors.transparent), // Цвет при наведении
               ),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => CompetitionPage()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AdminCompetitionPage()));
               },
               child: Text('Соревнования', style: TextStyle(fontSize: 20)),
             ),

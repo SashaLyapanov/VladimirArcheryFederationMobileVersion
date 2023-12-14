@@ -5,8 +5,12 @@ part 'category.g.dart';
 @JsonSerializable()
 class Category {
   const Category({
+    required this.id,
     required this.name,
   });
+
+  @JsonKey(name: 'id')
+  final String id;
 
   @JsonKey(name: 'name')
   final String name;
@@ -17,6 +21,7 @@ class Category {
 
   @override
   List<Object> get props => [
+    id,
     name,
   ];
 }

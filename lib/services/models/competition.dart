@@ -5,7 +5,7 @@ part 'competition.g.dart';
 
 @JsonSerializable()
 class Competition {
-  const Competition({
+  Competition({
     required this.id,
     required this.name,
     required this.place,
@@ -59,15 +59,14 @@ class Competition {
     name,
     place,
     type,
+    status,
     price,
     categories,
     date,
-    status,
     bowTypeList,
     mainJudge,
     secretary,
     zamJudge,
     judges,
   ];
-
 }

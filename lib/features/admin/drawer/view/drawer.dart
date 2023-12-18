@@ -9,6 +9,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../../../services/auth.dart';
 import '../../competitions/view/competitions.dart';
+import '../../news/view/news.dart';
 
 class AdminDrawer extends StatefulWidget {
   const AdminDrawer({super.key});
@@ -59,7 +60,8 @@ class _AdminDrawerState extends State<AdminDrawer> {
                 overlayColor: MaterialStateProperty.all(Colors.transparent), // Цвет при наведении
               ),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => NewsPage()));
+                // Navigator.push(context, MaterialPageRoute(builder: (context) => AdminNewCreate()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => NewsAdminPage()));
               },
               child: Text('Новости', style: TextStyle(fontSize: 20)),
             ),

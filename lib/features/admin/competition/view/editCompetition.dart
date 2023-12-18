@@ -1,25 +1,31 @@
-import 'package:archery_federation/features/admin/competitions/competitions.dart';
-import 'package:archery_federation/services/competition_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 
+import '../../../../services/competition_service.dart';
 import '../../../../services/generalService.dart';
 import '../../../../services/models/models.dart';
 import '../../../news/view/news.dart';
+import '../../competitions/view/competitions.dart';
 import '../../drawer/view/drawer.dart';
-import '../widgets/widgetsForCreate.dart';
+import '../widgets/widgetsForEdit.dart';
 
-class AdminCompetitionCreate extends StatefulWidget {
-  const AdminCompetitionCreate({super.key});
+class AdminEditCompetitionPage extends StatefulWidget {
+  final String competitionId;
+  final Competition? competition;
+
+  const AdminEditCompetitionPage({super.key, required this.competitionId, required this.competition});
 
   @override
-  State<AdminCompetitionCreate> createState() => _AdminCompetitionCreateState();
+  State<AdminEditCompetitionPage> createState() => _AdminEditCompetitionPageState(competitionId, competition!);
 }
 
-class _AdminCompetitionCreateState extends State<AdminCompetitionCreate> {
+class _AdminEditCompetitionPageState extends State<AdminEditCompetitionPage> {
+  late String competitionId;
+  late Competition competition;
+  // Map<int, Competition>? response;
   int? response;
   List<Category>? categories;
   List<BowType>? bowTypeList;
@@ -43,11 +49,23 @@ class _AdminCompetitionCreateState extends State<AdminCompetitionCreate> {
     super.initState();
   }
 
+  Future<void> _inputOldDataToField(Competition competition) async {
+    _nameController.text = competition.name;
+    _placeController.text = competition.place;
+    _dateController.text = competition.date.toString().split(' ')[0];
+    _priceController.text = competition.price.toString();
+    _mainJudgeController.text = competition.mainJudge;
+    _secretaryController.text = competition.secretary;
+    _zamJudgeController.text = competition.zamJudge;
+    _judgesController.text = competition.judges;
+  }
+
   Future<void> _loadDataLists() async {
     categories = await GeneralService(dio: Dio()).getAllCategories();
     bowTypeList = await GeneralService(dio: Dio()).getAllBowTypes();
     competitionTypeList = await GeneralService(dio: Dio()).getAllCompetitionTypes();
     _loadItemsList();
+    _inputOldDataToField(competition);
     setState(() {});
   }
 
@@ -72,7 +90,7 @@ class _AdminCompetitionCreateState extends State<AdminCompetitionCreate> {
   late String zamJudge;
   late String judges;
 
-  _AdminCompetitionCreateState();
+  _AdminEditCompetitionPageState(this.competitionId, this.competition);
 
   @override
   Widget build(BuildContext context) {
@@ -289,7 +307,7 @@ class _AdminCompetitionCreateState extends State<AdminCompetitionCreate> {
       );
     }
 
-    void _createCompetition() async {
+    void _editCompetition() async {
       name = _nameController.text;
       place = _placeController.text;
       date = _dateController.text;
@@ -300,12 +318,15 @@ class _AdminCompetitionCreateState extends State<AdminCompetitionCreate> {
       zamJudge = _zamJudgeController.text;
       judges = _judgesController.text;
 
-      response = await CompetitionService(dio: Dio()).createCompetition(name, place, date, typeId, price, selectedCategory!, selectedBowType!, mainJudge, secretary, zamJudge, judges);
+      response = await CompetitionService(dio: Dio()).editCompetition(competitionId, name, place, date, typeId, price, selectedCategory!, selectedBowType!, mainJudge, secretary, zamJudge, judges);
       setState(() {});
-      if (response == 200) {
-        setState(() {});
-        Navigator.push(context, MaterialPageRoute(builder: (context) => AdminCompetitionPage()));
-      } else {
+      if (response != null) {
+        if (response == 200) {
+          setState(() {});
+          Navigator.push(context, MaterialPageRoute(builder: (context) => AdminCompetitionPage()));
+        }
+      }
+      else {
         //Добавить обработчик события в результате получения statusCode != 200
         //можно просто выводить диалоговое окно с предупреждением о том, что пришло в response.message
       }
@@ -326,7 +347,7 @@ class _AdminCompetitionCreateState extends State<AdminCompetitionCreate> {
               Navigator.push(context, MaterialPageRoute(builder: (context) => NewsPage()));
             },
           ),
-          title: const Center(child: Text("Новое соревнование", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),),
+          title: const Center(child: Text("Соревнования", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white), softWrap: true,),),
         ),
         backgroundColor: Colors.white,
         body: (categories == null)
@@ -342,8 +363,8 @@ class _AdminCompetitionCreateState extends State<AdminCompetitionCreate> {
                           children: <Widget>[
                             Column(
                               children: <Widget>[
-                                logoForRegistrationToCompetition(),
-                                _formRegistration('Создать', _createCompetition),
+                                logoForEditingCompetition(),
+                                _formRegistration('Создать', _editCompetition),
                               ],
                             )
                           ],

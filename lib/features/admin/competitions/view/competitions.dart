@@ -71,7 +71,7 @@ class _AdminCompetitionPageState extends State<AdminCompetitionPage> {
                           return Padding(
                             padding: EdgeInsets.only(left: 15, top: 10, right: 15, bottom: 10),
                             child: InkWell(
-                              onTap: () { Navigator.push(context, MaterialPageRoute(builder: (context) => AdminCompetitionCreate()));},
+                              onTap: () { Navigator.push(context, MaterialPageRoute(builder: (context) => AdminInfoAboutCompetition(competitionId: '${competitionList?[index].id}', competition: competitionList![index]))); },
                               child: Card(
                                 color: cardColor,
                                 shadowColor: Colors.white70,

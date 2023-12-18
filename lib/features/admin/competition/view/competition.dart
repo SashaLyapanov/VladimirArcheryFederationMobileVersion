@@ -8,17 +8,19 @@ import '../../drawer/view/drawer.dart';
 import '../widgets/widgets.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class CompetitionInfoPage extends StatefulWidget {
+import 'editCompetition.dart';
+
+class AdminInfoAboutCompetition extends StatefulWidget {
   final String competitionId;
   final Competition? competition;
 
-  const CompetitionInfoPage({super.key, required this.competitionId, required this.competition});
+  const AdminInfoAboutCompetition({super.key, required this.competitionId, required this.competition});
 
   @override
-  State<CompetitionInfoPage> createState() => _CompetitionInfoPageState(competitionId, competition!);
+  State<AdminInfoAboutCompetition> createState() => _AdminInfoAboutCompetition(competitionId, competition!);
 }
 
-class _CompetitionInfoPageState extends State<CompetitionInfoPage> {
+class _AdminInfoAboutCompetition extends State<AdminInfoAboutCompetition> {
   final storage = FlutterSecureStorage();
   late String competitionId;
   late Competition competition;
@@ -43,7 +45,7 @@ class _CompetitionInfoPageState extends State<CompetitionInfoPage> {
     setState(() {});
   }
 
-  _CompetitionInfoPageState(this.competitionId, this.competition);
+  _AdminInfoAboutCompetition(this.competitionId, this.competition);
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +54,7 @@ class _CompetitionInfoPageState extends State<CompetitionInfoPage> {
       home: Scaffold(
         endDrawer: AdminDrawer(),
         appBar: AppBar(
+          backgroundColor: Colors.red,
           leading: IconButton(
             icon: const CircleAvatar(
               backgroundImage: AssetImage('assets/images/logo.jpg'),
@@ -148,9 +151,18 @@ class _CompetitionInfoPageState extends State<CompetitionInfoPage> {
                                     }, child: (sportsmen != null) ? participantList(competition, sportsmen!)
                                     : const Text("На данный момент на данные соревнования никто не зарегистрировался в данной категории", style: TextStyle(color: Colors.black, fontSize: 18,), softWrap: true, textAlign: TextAlign.center,),
                                 )
-
-
-
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10, bottom: 20),
+                              child: button("Редактировать соревнования", () => {
+                                if (role == "ADMIN") {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => AdminEditCompetitionPage(competitionId: competitionId, competition: competition,)))
+                                }
+                              }
+                              ),
                             ),
                           ],
                         )

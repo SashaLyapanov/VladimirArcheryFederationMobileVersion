@@ -7,6 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import '../../drawer/view/drawer.dart';
+import '../../newPage/view/articlePage.dart';
 
 
 class NewsAdminPage extends StatefulWidget {
@@ -66,38 +67,55 @@ class _NewsAdminPageState extends State<NewsAdminPage> {
                         child: ListView.builder(
                           itemCount: articles?.length,
                           itemBuilder: (BuildContext context, int index) {
-                            Color cardColor = Colors.white;
                             return Padding(
                               padding: const EdgeInsets.only(left: 15, top: 10, right: 15, bottom: 10),
                               child: InkWell(
-                                onTap: () { Navigator.push(context, MaterialPageRoute(builder: (context) => AdminNewCreate())); },
-                                child: Card(
-                                  color: cardColor,
-                                  shadowColor: Colors.white70,
-                                  shape: const RoundedRectangleBorder(
-                                    side: BorderSide(
-                                        color: Color.fromARGB(100, 120, 164, 255),
-                                        width: 3
-                                    ),
-                                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                                onTap: () { Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                                    AdminArticlePage(articleId: '${articles?[index].id}', article: articles![index]))); },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border: Border.all(color: Colors.black.withOpacity(0.2)),
+                                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.1),
+                                        blurRadius: 8,
+                                        offset: const Offset(0, 2),
+                                      )
+                                    ]
                                   ),
-                                  child: ListTile(
-                                    title: Text("Заголовок: ${articles?[index].name}"),
-                                    subtitle: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text("${articles?[index].body}"),
-                                        Text("Новость от: ${articles?[index].dateTime.toLocal().toString().split(' ')[0]}"),
-                                        Center(
-                                          child: SizedBox(
-                                            height: 200,
-                                            width: 200,
-                                            child: Image.memory(Uint8List.fromList(articles![0].fileData1!)),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                  clipBehavior: Clip.hardEdge,
+                                  child: Row(
+                                    children: [
+                                      SizedBox(
+                                        height: 100,
+                                        child: Image.memory(Uint8List.fromList(articles![index].fileData1!)),
+                                      ),
+                                      SizedBox(width: 15),
+                                      Expanded(
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Text("${articles?[index].name}",
+                                                style: TextStyle(fontWeight: FontWeight.bold),
+                                                maxLines: 1 ,
+                                                overflow: TextOverflow.ellipsis,),
+                                              SizedBox(height: 5),
+                                              Text("${articles?[index].dateTime.toLocal().toString().split(' ')[0]}",
+                                                style: TextStyle(color: Colors.grey), softWrap: true,),
+                                              SizedBox(height: 10),
+                                              Text("${articles?[index].body}",
+                                                style: TextStyle(),
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ],
+                                          )
+                                      ),
+                                      SizedBox(width: 15),
+                                    ],
+                                  )
                                 ),
                               ),
                             );
@@ -107,56 +125,16 @@ class _NewsAdminPageState extends State<NewsAdminPage> {
                     );
                 }
             ),),
-          ],),),);
+          ],),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => AdminNewCreate())),
+          },
+          child: Icon(Icons.add),
+          foregroundColor: Colors.white,
+          backgroundColor: Colors.red,
+        ),
+      ),);
   }
 
-
-
-
-  // @override
-  // Widget build(BuildContext context) {
-  //
-  //   Widget _new() {
-  //     return Container(
-  //         padding: EdgeInsets.only(left: 15, top: 0, right: 15, bottom: 10),
-  //         child: Text("Заголовок"),
-  //     );
-  //   }
-  //
-  //
-  //
-  //   return MaterialApp(
-  //       home: Scaffold(
-  //       endDrawer: AdminDrawer(),
-  //       appBar: AppBar(
-  //         backgroundColor: Colors.red,
-  //         leading: IconButton(
-  //           icon: CircleAvatar(
-  //             backgroundImage: AssetImage('assets/images/logo.jpg'),
-  //             radius: 30,
-  //           ),
-  //           onPressed: () {
-  //             null;
-  //           },
-  //         ),
-  //         title: Center(child: Text("Новости", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),),
-  //       ),
-  //       backgroundColor: Colors.white,
-  //       body: CustomScrollView(
-  //         slivers: [
-  //           SliverList(delegate: SliverChildBuilderDelegate(
-  //               (BuildContext context, int index) {
-  //                 return Padding(
-  //                   padding: EdgeInsets.only(left: 15, right: 15, bottom: 15),
-  //                   // child: Text("Всем привет, зовусь я Саня!!!" + index.toString()),
-  //                   child: Center(
-  //                     child: Image.memory(Uint8List.fromList(articles![0].fileData1!)),
-  //                   ),
-  //                 );
-  //             },
-  //             childCount: 50,
-  //             ),),
-  //           ],),),);
-  //
-  // }
 }

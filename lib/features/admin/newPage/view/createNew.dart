@@ -27,9 +27,6 @@ class _AdminNewCreateState extends State<AdminNewCreate> {
     setState(() {});
   }
 
-  // void setImageFileListFromFile(XFile? value) {
-  //   value == null? null : imageFiles?.add(value);
-  // }
   void setImageFileListFromFile(XFile? value) {
    imageFile = value == null ? null : value;
   }
@@ -77,11 +74,11 @@ class _AdminNewCreateState extends State<AdminNewCreate> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.only(bottom: 10),
-            child: input(const Icon(Icons.person), "Заголовок", _nameController, false),
+            child: input(const Icon(Icons.book), "Заголовок", _nameController, false),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10),
-            child: input(const Icon(Icons.person), "Тело новости", _bodyController, false),
+            child: input(const Icon(Icons.book), "Тело новости", _bodyController, false),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10),
@@ -95,17 +92,20 @@ class _AdminNewCreateState extends State<AdminNewCreate> {
                 // imageFiles;
                 _getFromGallery();
               },
-              child: const Text("PICK IMAGE FROM GALLERY"),
+              child: const Text("Выбрать фото из галереи",
+                style: TextStyle(fontSize: 16),),
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: SizedBox(
-              height: 50,
-              width: 50,
+              height: 200,
               child: imageFile != null ?
               Image.file(File(imageFile!.path))
-                  : const Text('No image selected'),
+                  : const Align(
+                      alignment: Alignment.center,
+                      child: Text('Фото не выбрано', style: TextStyle(fontSize: 20),),
+              ),
             )
           ),
           const SizedBox(height: 10,),
@@ -168,6 +168,20 @@ class _AdminNewCreateState extends State<AdminNewCreate> {
                           children: <Widget>[
                             Column(
                               children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.all(20),
+                                  child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: SizedBox(
+                                      width: 100,
+                                      child: InkWell(
+                                          onTap: () {Navigator.pop(context);},
+                                          child: const Image(
+                                            image: AssetImage('assets/images/backArrow/backArrow2.png'),)
+                                      ),
+                                    ),
+                                  ),
+                                ),
                                 logoForRegistrationToCompetition(),
                                 _formNewCreate('Создать', _createCompetition),
                               ],

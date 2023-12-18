@@ -3,8 +3,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import '../../../../services/sportsman_service.dart';
 import '../../../competitionRegistration/view/competitionRegistration.dart';
-import '../../../news/news.dart';
 import '../../drawer/view/drawer.dart';
+import '../../news/view/news.dart';
 import '../widgets/widgets.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -61,7 +61,7 @@ class _AdminInfoAboutCompetition extends State<AdminInfoAboutCompetition> {
               radius: 30,
             ),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => NewsPage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => NewsAdminPage()));
             },
 
           ),

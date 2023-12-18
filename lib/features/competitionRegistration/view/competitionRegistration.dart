@@ -199,6 +199,20 @@ class _CompetitionRegistrationFormState extends State<CompetitionRegistrationFor
                           children: <Widget>[
                             Column(
                               children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.all(20),
+                                  child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: SizedBox(
+                                      width: 100,
+                                      child: InkWell(
+                                          onTap: () {Navigator.pop(context);},
+                                          child: const Image(
+                                            image: AssetImage('assets/images/backArrow/backArrow5.png'),)
+                                      ),
+                                    ),
+                                  ),
+                                ),
                                 logoForRegistrationToCompetition(),
                                 _formRegistration('Зарегистрироваться', _registerParticipant),
                               ],

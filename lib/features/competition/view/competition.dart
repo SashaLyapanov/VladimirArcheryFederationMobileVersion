@@ -2,6 +2,7 @@ import 'package:archery_federation/services/models/models.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import '../../../services/sportsman_service.dart';
+import '../../auth/view/auth.dart';
 import '../../competitionRegistration/view/competitionRegistration.dart';
 import '../../drawer/view/drawer.dart';
 import '../../news/view/view.dart';
@@ -74,6 +75,20 @@ class _CompetitionInfoPageState extends State<CompetitionInfoPage> {
                     (
                         Column(
                           children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.all(20),
+                              child: Align(
+                                alignment: Alignment.centerRight,
+                                child: SizedBox(
+                                  width: 100,
+                                  child: InkWell(
+                                      onTap: () {Navigator.pop(context);},
+                                      child: const Image(
+                                        image: AssetImage('assets/images/backArrow/backArrow3.png'),)
+                                  ),
+                                ),
+                              ),
+                            ),
                             competitionName(competition.name),
                             Padding(
                               padding: const EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 0),
@@ -129,7 +144,12 @@ class _CompetitionInfoPageState extends State<CompetitionInfoPage> {
                                 ),
 
                                 button("Зарегистрироваться", () => {
-                                  if (role == "SPORTSMAN") {
+                                  if (role == null) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => AuthorizationPage())
+                                    )
+                                  } else if (role == "SPORTSMAN") {
                                     Navigator.push(
                                     context,
                                     MaterialPageRoute(

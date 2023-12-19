@@ -1,4 +1,3 @@
-import 'package:archery_federation/features/aboutUs/aboutUs.dart';
 import 'package:archery_federation/features/drawer/drawer.dart';
 import 'package:archery_federation/features/link/link.dart';
 import 'package:archery_federation/features/news/news.dart';
@@ -8,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../../../services/auth.dart';
+import '../../aboutFederation/view/aboutFederationPage.dart';
 import '../../competitions/view/competitions.dart';
 import '../../news/view/news.dart';
 
@@ -75,7 +75,7 @@ class _AdminDrawerState extends State<AdminDrawer> {
                 overlayColor: MaterialStateProperty.all(Colors.transparent), // Цвет при наведении
               ),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => AboutUsPage()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AdminAboutFederationPage()));
               },
               child: Text('О федерации', style: TextStyle(fontSize: 20)),
             ),

@@ -34,8 +34,6 @@ class Article {
   final String fileData;
 
   List<int>? fileData1;
-  // @JsonKey(name: 'file')
-  // final File file;
 
   factory Article.fromJson(Map<String, dynamic> json) => _$ArticleFromJson(json);
 
@@ -49,7 +47,6 @@ class Article {
     link,
     body,
     dateTime,
-    // imageList,
     fileName,
     fileData
   ];

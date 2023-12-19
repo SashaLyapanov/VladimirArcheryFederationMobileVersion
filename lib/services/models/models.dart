@@ -11,3 +11,4 @@ export 'region.dart';
 export 'sportsTitle.dart';
 export 'sex.dart';
 export 'image.dart';
+export 'aboutFederation.dart';

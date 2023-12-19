@@ -14,9 +14,12 @@ Article _$ArticleFromJson(Map<String, dynamic> json) => Article(
       dateTime: DateTime.parse(json['dateTime'] as String),
       fileName: json['fileName'] as String,
       fileData: json['fileData'] as String,
-    )..imageList = json['imageList'] == null
-        ? null
-        : ImageByServer.fromJson(json['imageList'] as Map<String, dynamic>);
+    )
+      ..imageList = json['imageList'] == null
+          ? null
+          : ImageByServer.fromJson(json['imageList'] as Map<String, dynamic>)
+      ..fileData1 =
+          (json['fileData1'] as List<dynamic>?)?.map((e) => e as int).toList();
 
 Map<String, dynamic> _$ArticleToJson(Article instance) => <String, dynamic>{
       'id': instance.id,
@@ -27,4 +30,5 @@ Map<String, dynamic> _$ArticleToJson(Article instance) => <String, dynamic>{
       'imageList': instance.imageList,
       'fileName': instance.fileName,
       'fileData': instance.fileData,
+      'fileData1': instance.fileData1,
     };

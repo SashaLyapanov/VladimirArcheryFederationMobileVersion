@@ -9,17 +9,17 @@ import '../../drawer/view/drawer.dart';
 import '../../news/view/news.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import '../widgets/widgets.dart';
+import '../widgets/widgetsForAboutFederationPage.dart';
 
-class AboutUsPage extends StatefulWidget {
+class AdminAboutFederationPage extends StatefulWidget {
 
-  const AboutUsPage({super.key});
+  const AdminAboutFederationPage({super.key});
 
   @override
-  State<AboutUsPage> createState() => _AboutUsPage();
+  State<AdminAboutFederationPage> createState() => _AdminAboutFederationPage();
 }
 
-class _AboutUsPage extends State<AboutUsPage> {
+class _AdminAboutFederationPage extends State<AdminAboutFederationPage> {
   final storage = FlutterSecureStorage();
   late String aboutFederationId;
   late AboutFederation? aboutFederation;
@@ -59,26 +59,26 @@ class _AboutUsPage extends State<AboutUsPage> {
           debugPrint('Файл сохранен в: ${newFile.path}')
         });
         // await File(filePath).writeAsBytes(fileBytes);
-        // } else if (status.isDenied) {
-        //   // Разрешение отклонено, показываем диалоговое окно с объяснением
-        //   showDialog(
-        //     context: context,
-        //     builder: (BuildContext context) {
-        //       return AlertDialog(
-        //         title: Text('Разрешение не предоставлено'),
-        //         content: Text('Для работы приложения необходимо разрешение на запись во внешнее хранилище.'),
-        //         actions: <Widget>[
-        //           ElevatedButton(
-        //             child: Text('Запросить разрешение'),
-        //             onPressed: () {
-        //               status = PermissionStatus.granted;
-        //               setState(() {});
-        //             },
-        //           ),
-        //         ],
-        //       );
-        //     },
-        //   );
+      // } else if (status.isDenied) {
+      //   // Разрешение отклонено, показываем диалоговое окно с объяснением
+      //   showDialog(
+      //     context: context,
+      //     builder: (BuildContext context) {
+      //       return AlertDialog(
+      //         title: Text('Разрешение не предоставлено'),
+      //         content: Text('Для работы приложения необходимо разрешение на запись во внешнее хранилище.'),
+      //         actions: <Widget>[
+      //           ElevatedButton(
+      //             child: Text('Запросить разрешение'),
+      //             onPressed: () {
+      //               status = PermissionStatus.granted;
+      //               setState(() {});
+      //             },
+      //           ),
+      //         ],
+      //       );
+      //     },
+      //   );
       } else {
         debugPrint("Сутеа");
       }
@@ -91,15 +91,16 @@ class _AboutUsPage extends State<AboutUsPage> {
     return MaterialApp(
       title: "О федерации",
       home: Scaffold(
-        endDrawer: MainDrawer(),
+        endDrawer: AdminDrawer(),
         appBar: AppBar(
+          backgroundColor: Colors.red,
           leading: IconButton(
             icon: const CircleAvatar(
               backgroundImage: AssetImage('assets/images/logo.jpg'),
               radius: 30,
             ),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => NewsPage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => NewsAdminPage()));
             },
 
           ),
